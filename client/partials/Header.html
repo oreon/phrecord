@@ -1,6 +1,9 @@
 <template name="Header">
 	<header>
 		<h1>My Recipe Book</h1>
-		{{> loginButtons}}
+        <a class="logout btn-secondary">
+            Log out
+        </a>
+       {{currentUser}}
 	</header>
 </template>
