@@ -46,3 +46,7 @@ shell-server
 dynamic-import
 
 practicalmeteor:mocha
+
+themeteorchef:bert
+aldeed:tabular
+aslagle:reactive-table

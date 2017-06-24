@@ -13,15 +13,21 @@
     <fieldset>
         <legend>Enter Measurements for </legend>
 
-        <h2> BP </h2>
+        <h4> BP - Systolic/Diastolic </h4>
         <div>
             {{> quickForm id="insertBpForm" type="update-pushArray" collection="Patients"
-            doc=patient scope="measurements" fields= "mainValue"}}
+            doc=patient scope="measurements" fields= "mainValue, secondary"  template="bootstrap3-inline"}}
         </div>
 
-        <h2>  Fasting Glucose</h2>
+        <h4>  Fasting Glucose</h4>
         <div>
-            {{> quickForm id="insertFastingGlucoseForm" type="update-pushArray" collection="Patients"
+            {{> quickForm id="insertFG" type="update-pushArray" collection="Patients"
+            doc=patient scope="measurements" fields="mainValue"}}
+        </div>
+
+        <h4>  Post Parandial Glucose</h4>
+        <div>
+            {{> quickForm id="insertPPG" type="update-pushArray" collection="Patients"
             doc=patient scope="measurements" fields="mainValue"}}
         </div>
 
@@ -32,6 +38,11 @@
 </template>
 
 <template name="msmtTbl">
+
+    {{> reactiveTable collection='Patients' settings=settings
+
+
+    }}
     {{#if measurements}}
         <table class="table table-striped table-bordered table-condensed">
             <thead>
@@ -48,9 +59,9 @@
                 <tr>
                     <td>{{measurement}}</td>
                     <td> {{mainValue}} </td>
-                    <td> {{ updatedAt}} </td>
+                    <td> {{datef updatedAt}} </td>
                     <td> {{source}} </td>
-                    <td> <button class="btn btn-deny deleteMeasurement" name='{{drug}}' > Delete </button> </td>
+                    <td> <button class="btn btn-deny deleteMeasurement"  > Delete </button> </td>
                 </tr>
             {{/each}}
             </tbody>

@@ -17,14 +17,23 @@ class PatientsCollection extends Mongo.Collection {
 MeasurementSchema = new SimpleSchema([BaseSchema, {
     measurement: {
         type: String,
-        allowedValues: ['BP', 'Temperature', 'PO2', 'Blood Sugar', 'Pulse', 'Breaths Per Minute',
+        allowedValues: ['BP', 'Temperature', 'PO2', 'BGF', 'BGPP', 'Pulse', 'Breaths Per Minute',
             'Height','Weight','Head Circumference'
         ],
         autoform: {
             type: "hidden"
         },
     },
-    mainValue: { type: Number, optional: true },
+    mainValue: {
+        type: Number,
+        optional: true ,
+        label: ' '
+    },
+    secondary: {
+        type: Number,
+        optional: true ,
+        label: ' '
+    },
    // values: { type: [TestResultValue], optional: true },
     source: {
         type: String,
