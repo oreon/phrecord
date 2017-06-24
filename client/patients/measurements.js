@@ -19,19 +19,19 @@ Template.measurements.helpers({
 AutoForm.hooks({
 
 	insertBpForm: {
-		onSubmit: function (insertDoc, updateDoc, currentDoc) {
-			console.log(updateDoc)
-			this.done();
-			return true;
-		}
+		formToDoc: function(doc) {
+			console.log(doc)
+			doc.measurement="BP"
+			return doc;
+		},
+
 	},
 
 	insertFastingGlucoseForm: {
-		onSubmit: function (insertDoc, updateDoc, currentDoc) {
-			console.log(updateDoc)
-
-			this.done();
-			return true;
+		formToDoc: function(doc) {
+			//console.log(doc)
+			doc.measurement="Fasting-Sugar"
+			return doc;
 		},
 	}
 

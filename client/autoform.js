@@ -18,10 +18,10 @@ var hooksObject = {
 
   //   // The same as the callbacks you would normally provide when calling
   //   // collection.insert, collection.update, or Meteor.call
-  //   after: {
-  //     // Replace `formType` with the form `type` attribute to which this hook applies
-  //     formType: function(error, result) {}
-  //   },
+     after: {
+       // Replace `formType` with the form `type` attribute to which this hook applies
+         insertBpForm: function(error, result) { console.log(result)}
+     },
 
      // Called when form does not have a `type` attribute
      onSubmit: function(insertDoc, updateDoc, currentDoc) {
@@ -49,10 +49,11 @@ var hooksObject = {
   // Called every time an insert or typeless form
   // is revalidated, which can be often if keyup
   // validation is used.
-  //   formToDoc: function(doc) {
-  //     // alter doc
-  //     // return doc;
-  //   },
+     formToDoc: function(doc) {
+         console.log(doc)
+       // alter doc
+       return doc;
+     },
 
      // Called every time an update or typeless form
      // is revalidated, which can be often if keyup
@@ -71,8 +72,8 @@ var hooksObject = {
   //   // show/hide a "Please wait" message, etc. If these hooks are
   //   // not defined, then by default the submit button is disabled
   //   // during submission.
-  //   beginSubmit: function() {},
-  //   endSubmit: function() {}
+   //beginSubmit: function() { console.log("submitting")},
+   // endSubmit: function() { console.log("endSubmit") }
 };
 
 AutoForm.addHooks(null, hooksObject);

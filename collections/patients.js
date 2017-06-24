@@ -15,9 +15,8 @@ class PatientsCollection extends Mongo.Collection {
 }
 
 MeasurementSchema = new SimpleSchema([BaseSchema, {
-    ç: {
+    measurement: {
         type: String,
-        optional: true,
         allowedValues: ['BP', 'Temperature', 'PO2', 'Blood Sugar', 'Pulse', 'Breaths Per Minute',
             'Height','Weight','Head Circumference'
         ],
@@ -35,7 +34,6 @@ MeasurementSchema = new SimpleSchema([BaseSchema, {
         autoform: {
             type: "hidden"
         },
-        optional:true
     },
 }])
 
