@@ -12,7 +12,44 @@ import { BaseSchema } from '/imports/api/schemas.js';
 
 class PatientsCollection extends Mongo.Collection {
 
+    // update(selector, modifier){
+
+    // }
+
 }
+
+
+TestResultsSchema = new SimpleSchema([BaseSchema, {
+    patient: {
+        type: String,
+        optional: true,
+        autoform: {
+            type: "hidden",
+        },
+    },
+    admission: {
+        type: String,
+        optional: true,
+        autoform: {
+            type: "hidden",
+        },
+    },
+    labTest: {
+        type: String,
+        optional: false,
+        autoform: {
+            type: "select",
+            options: function () {
+                return LabTests.find().map(function (c) {
+                    return { label: c.name, value: c._id };
+                });
+            }
+        }
+    },
+    mainValue: { type: Number, decimal: true, optional: true },
+    values: { type: [Number], optional: true }
+}
+])
 
 MeasurementSchema = new SimpleSchema([BaseSchema, {
     measurement: {
@@ -26,7 +63,6 @@ MeasurementSchema = new SimpleSchema([BaseSchema, {
     },
     mainValue: {
         type: Number,
-        optional: true ,
         label: ' '
     },
     secondary: {
@@ -46,7 +82,7 @@ MeasurementSchema = new SimpleSchema([BaseSchema, {
     },
 }])
 
-Patients = new PatientsCollection('patients')
+
 
 
 PatientSchema = new SimpleSchema([BaseSchema, {
@@ -155,10 +191,17 @@ PatientSchema = new SimpleSchema([BaseSchema, {
 
 }])
 
+
+Patients = new PatientsCollection('patients')
+TestResults = new Mongo.Collection('testResults')
+
 Patients.attachSchema(PatientSchema)
+TestResults.attachSchema(TestResultsSchema)
 
 
 Patients.allow({
     insert: (userId, doc) => !!userId,  //todo: should only allow user to update their own
     update: (userId, doc) => !!userId
 })
+
+

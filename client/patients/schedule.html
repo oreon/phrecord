@@ -1,0 +1,30 @@
+<template name="scheduledEvents">
+    <ul class="nav nav-tabs">
+        <li><a data-toggle="tab" href="#byProc"><i class="fa fa-database"></i>By Procedure</a></li>
+        <li class="active"><a data-toggle="tab" href="#all"> By Date</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="byProc" class="tab-pane fade ">
+            {{# each getEvents patient}}
+                <ul class="list-group">{{item.name}} , Every {{item.frequency.every}} {{item.frequency.type}} {{#each dates}}
+                    <li class="list-group-item">{{datesm .}} </li> {{/each}}
+                </ul>
+            {{/each}}
+        </div>
+
+        <div id="all" class="tab-pane fade in active">
+            <ul class="list-group">
+                {{# each getEventsByDate patient}}
+                    <li class="list-group-item"> {{item.name}} -  {{datesm date}}
+                        <!--
+                    {{> quickForm id="insertSEForm" type="update-pushArray" collection="Patients"
+                        doc=patient scope="scheduledEventPerformed"}}-->
+
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+
+</template>
