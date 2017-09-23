@@ -34,7 +34,7 @@ var hooksObject = {
 
   // Called when any submit operation succeeds
   onSuccess: function (formType, result) {
-    //Bert.alert( 'Successfully updated !', 'success', 'growl-top-right' );
+    Bert.alert( 'Successfully updated !', 'success', 'growl-top-right' );
     console.log(result)
   },
 
@@ -58,10 +58,10 @@ var hooksObject = {
      // Called every time an update or typeless form
      // is revalidated, which can be often if keyup
      // validation is used.
-     formToModifier: function(modifier) {
-       console.log(modifier)
+     //formToModifier: function(modifier) {
+       //console.log(modifier)
        // return modifier;
-     },
+     //},
 
   //   // Called whenever `doc` attribute reactively changes, before values
   //   // are set in the form fields.

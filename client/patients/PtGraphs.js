@@ -2,20 +2,28 @@ import Highcharts from 'Highcharts'
 import moment from 'moment'
 
 export const applyChartData = (testsByType, msmts, template) => {
-    let tstMap = tstGraphs(testsByType)
 
-    for (var [key, value] of tstMap) {
-        template.mapResults.get().set(key, value);
-    }
+    //console.log(testsByType)
+    //console.log(msmts)
 
+    _.forOwn()
 
     let msMap = msmtGraphs(msmts)
-
 
     for (var [key, value] of msMap) {
         if(key)
             template.mapResults.get().set(key, value);
     }
+
+    if(testsByType ) {
+        let tstMap = tstGraphs(testsByType)
+
+        for (var [key, value] of tstMap) {
+            template.mapResults.get().set(key, value);
+        }
+    }
+
+
 }
 
 export const msmtGraphs = (msmts) => {
@@ -94,13 +102,14 @@ Template.PtGraphs.helpers({
 
     createChartData: function (adm) {
 
-        let testResults = TestResults.find({ admission: adm._id }).fetch();
-        let testsByType = _.groupBy(testResults, function (a) { return a.labTestName() })
+        //let testResults = TestResults.find({ admission: adm._id }).fetch();
+        //let testsByType = _.groupBy(testResults, function (a) { return a.labTestName() })
         let msmts = _.groupBy(adm.measurements, function (a) { return a.measurement })
+        let testsByType = null
 
         console.log(msmts)
 
-        applyChartData(msmts, testsByType, Template.instance())
+        applyChartData(testsByType, msmsts ,Template.instance())
 
     },
 

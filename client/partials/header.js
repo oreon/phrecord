@@ -1,10 +1,15 @@
-
+Template.Header.onCreated(function(){
+    var self = this;
+    self.autorun(function (){
+        self.subscribe('patient');
+    });
+});
 
 
 Template.Header.helpers({
     currentUser: function() {
         if(Meteor.user())
-        return Meteor.user().profile.patientId;
+            return Patients.findOne().firstName;
     }
 });
 

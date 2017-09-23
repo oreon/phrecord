@@ -1,11 +1,7 @@
 <template name="PtGraphs">
-    Graphs
+    <a href="/profile"> Profile </a>
 {{#if Template.subscriptionsReady}}
-    {{#if admission}}
-        {{createChartData admission}}
-    {{else}}
-        {{createChartDataPt patient}}
-    {{/if}}
+    {{createChartDataPt patient}}
     {{#each chartNames}}
         <div id={{.}}>{{drawChart .}}</div>
         <hr/>
