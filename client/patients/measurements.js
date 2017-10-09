@@ -40,7 +40,7 @@ Template.msmtTbl.events({
 		//console.log(adm)
 
 
-		Meteor.call('admit', this, patient, function (error, response) {
+		Meteor.call('admit', this,  function (error, response) {
 			if (error) {
 				//Bert.alert(error.reason, "danger");
 				//console.log(error)
@@ -68,15 +68,15 @@ AutoForm.hooks({
 
 	insertFG: {
 		formToDoc: function(doc) {
-			//console.log(doc)
+			console.log(doc)
 			doc.measurement="BGF"
+
 			return doc;
 		},
 	},
 
 	insertPPG: {
 		formToDoc: function(doc) {
-			//console.log(doc)
 			doc.measurement="BGPP"
 			return doc;
 		},

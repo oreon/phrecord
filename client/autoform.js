@@ -19,23 +19,34 @@ var hooksObject = {
   //   // The same as the callbacks you would normally provide when calling
   //   // collection.insert, collection.update, or Meteor.call
      after: {
-       // Replace `formType` with the form `type` attribute to which this hook applies
-         insertBpForm: function(error, result) { console.log(result)}
+
      },
 
      // Called when form does not have a `type` attribute
      onSubmit: function(insertDoc, updateDoc, currentDoc) {
        // You must call this.done()!
-       console.log(updateDoc)
-       this.done(); // submitted successfully, call onSuccess
-       //this.done(new Error('foo')); // failed to submit, call onError with the provided error
-       //this.done(null, "foo"); // submitted successfully, call onSuccess with `result` arg set to "foo"
+
      },
 
   // Called when any submit operation succeeds
   onSuccess: function (formType, result) {
     Bert.alert( 'Successfully updated !', 'success', 'growl-top-right' );
-    console.log(result)
+    console.log(this)
+
+      Meteor.call('checkMsmt', result,  function (error, response) {
+      	if (error) {
+      		Bert.alert(error, "danger");
+      		console.log(error)
+      	} else {
+            //console.log(response)
+            if(response.level == 'warn')
+                Bert.alert('Measurements are somewhat above target, please consider lifestyle modifications ! ', 'danger');
+            else
+      		    Bert.alert('Successfully updated !', 'success');
+
+      	}
+      });
+
   },
 
   // Called when any submit operation fails

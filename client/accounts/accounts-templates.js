@@ -22,3 +22,12 @@ AccountsTemplates.addFields([
         //errStr: '1 lowercase and 1 uppercase letter reqiured'
     }
 ])
+
+
+//Accounts.onLogin(function(user){
+//    //if()
+//    console.log(user)
+//    console.log(user.user.profile.patientID)
+//    Session.set('patient', Patients.find(patientUniqueId = user.user.profile.patientID))
+//
+//});

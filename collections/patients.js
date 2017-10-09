@@ -52,6 +52,13 @@ TestResultsSchema = new SimpleSchema([BaseSchema, {
 ])
 
 MeasurementSchema = new SimpleSchema([BaseSchema, {
+    patient: {
+        type: String,
+        defaultValue:'unknown',
+        autoform: {
+            type: "hidden",
+        },
+    },
     measurement: {
         type: String,
         allowedValues: ['BP', 'Temperature', 'PO2', 'BGF', 'BGPP', 'Pulse', 'Breaths Per Minute',
@@ -181,11 +188,10 @@ PatientSchema = new SimpleSchema([BaseSchema, {
    // drugAllergies: { type: [DrugAllergySchema], optional: true },
    // immunizations: { type: [ImmunizationSchema], optional: true },
    // orderedLabsAndImages: { type: LabsAndImagingSchema, optional: true },
-    measurements: {
-        type: [MeasurementSchema],
-        optional: true,
-    },
-
+   // measurements: {
+   //     type: [MeasurementSchema],
+   //     optional: true,
+   // },
 
    // scheduledEventPerformed:{ type: [ScheduledEventPerformed], optional:true }
 
@@ -193,10 +199,12 @@ PatientSchema = new SimpleSchema([BaseSchema, {
 
 
 Patients = new PatientsCollection('patients')
+Measurements = new Mongo.Collection('measurements')
 TestResults = new Mongo.Collection('testResults')
 
 Patients.attachSchema(PatientSchema)
 TestResults.attachSchema(TestResultsSchema)
+Measurements.attachSchema(MeasurementSchema)
 
 
 Patients.allow({
@@ -204,4 +212,62 @@ Patients.allow({
     update: (userId, doc) => !!userId
 })
 
+Measurements.allow({
+    insert: (userId, doc) => !!userId,  //todo: should only allow user to update their own
+    update: (userId, doc) => !!userId
+})
 
+
+Patients.helpers({
+    fullName: function () {
+        return this.firstName + ' ' + this.lastName + ' ' + this.gender + ' ' + this.age();
+    },
+    age: function () {
+        let years = moment().diff(this.dob, 'years');
+        ret = years;
+        if (years == 0) {
+            ret = moment().diff(this.dob, 'days') + ' Days';
+        }
+        return ret;
+    },
+    currentBed: function () {
+        adm = this.currentAdmisson();
+        if (adm && adm.currentBedStay) {
+            ////console.log("found bed " + adm.currentBedStay.bed)
+            return Beds.findOne(adm.currentBedStay.bed);
+        }
+        return null
+    },
+    encounters: function () {
+        return Encounters.find({ patient: this._id });
+    },
+    testResults: function () {
+        TestResults.find({ patient: this._id });
+    },
+    isAdmitted: function () { return !!this.currentAdmisson() },
+    currentAdmisson: function () {
+        return Admissions.findOne({ patient: this._id, isCurrent: true });
+    },
+    admissions: function () {
+        return Admissions.find({ patient: this._id }).fetch();
+    },
+    msmts: function () {
+        return Measurements.find({ patient: this._id }).fetch();
+    },
+
+    msmtsByType: function (type) {
+        return Measurements.find({ patient: this._id , measurement:type}, {sort: {createdAt: -1}}).fetch();
+    }
+})
+
+
+
+
+if (Meteor.isServer) {
+
+    Measurements.before.insert((userId, doc) => {
+        console.log(Meteor.user().profile.patientId)
+        pt = Patients.findOne({patientUniqueId : Meteor.user().profile.patientId})
+        doc.patient = pt._id;
+    });
+}

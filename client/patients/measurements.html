@@ -15,19 +15,19 @@
 
         <h4> BP - Systolic/Diastolic </h4>
         <div>
-            {{> quickForm id="insertBpForm" type="update-pushArray" collection="Patients"
+            {{> quickForm id="insertBpForm" type="insert" collection="Measurements"
             doc=patient scope="measurements" fields= "mainValue, secondary"  template="bootstrap3-inline"}}
         </div>
 
         <h4>  Fasting Glucose</h4>
         <div>
-            {{> quickForm id="insertFG" type="update-pushArray" collection="Patients"
-            doc=patient scope="measurements" fields="mainValue"}}
+            {{> quickForm id="insertFG" type="insert" collection="Measurements"
+             fields="mainValue" patient=patient}}
         </div>
 
         <h4>  Post Parandial Glucose</h4>
         <div>
-            {{> quickForm id="insertPPG" type="update-pushArray" collection="Patients"
+            {{> quickForm id="insertPPG" type="insert" collection="Measurements"
             doc=patient scope="measurements" fields="mainValue"}}
         </div>
 

@@ -27,6 +27,10 @@ raix:handlebar-helpers
 aldeed:collection2
 aldeed:autoform
 
+dburles:collection-helpers
+dburles:factory
+matb33:collection-hooks
+
 matb33:bootstrap-glyphicons
 zimme:active-route
 gwendall:auth-client-callbacks

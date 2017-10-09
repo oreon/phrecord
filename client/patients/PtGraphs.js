@@ -39,7 +39,7 @@ export const msmtGraphs = (msmts) => {
             }
         })
 
-        console.log(arr)
+        //console.log(arr)
         mapResults.set(key, arr);
     });
     return mapResults;
@@ -88,6 +88,10 @@ Template.PtGraphs.onCreated(function () {
     this.mapResults = new ReactiveVar(new Map());
     self.autorun(function () {
         self.subscribe('patient');
+        pt = Patients.findOne()
+        if(pt)
+            self.subscribe('measurements', pt._id)
+        //Session.set('patient', Patients.findOne());
     });
 });
 
@@ -97,7 +101,9 @@ Template.PtGraphs.onCreated(function () {
 Template.PtGraphs.helpers({
 
     patient: ()=> {
-        return Patients.findOne();
+        pt =  Patients.findOne();
+        console.log(pt.msmts())
+        return pt;
     },
 
     createChartData: function (adm) {
@@ -117,7 +123,7 @@ Template.PtGraphs.helpers({
 
         let testResults = TestResults.find({ patient: patient._id }).fetch();
         let testsByType = _.groupBy(testResults, function (a) { return a.labTestName() })
-        let msmts = _.groupBy(patient.measurements, function (a) { return a.measurement })
+        let msmts = _.groupBy(patient.msmts(), a => a.measurement )
 
         applyChartData( testsByType, msmts, Template.instance())
     },
@@ -147,6 +153,7 @@ Template.PtGraphs.helpers({
                 title: {
                     text: key
                 },
+
                 xAxis: {
                     categories: cats,
                     labels: {
@@ -154,6 +161,7 @@ Template.PtGraphs.helpers({
                         rotation: 35,
                         align: 'left'
                     },
+
                     //type: 'datetime',
                     // labels: {
                     //     format: '{value:%Y-%m-%d %H:%M}',
@@ -168,6 +176,24 @@ Template.PtGraphs.helpers({
                         text: 'Date Uploaded'
                     }
                 },
+
+                plotOptions: {
+                    series: {
+                        zones: [{
+                            value: 0,
+                            className: 'zone-1'
+                        }, {
+                            value: 10,
+                            className: 'zone-2'
+                        },
+                            {value: 15,
+                            className: 'zone-0'
+                        }
+                        ],
+                        //threshold: 15
+                    }
+                },
+
                 series: [{
                     type: 'line',
                     data: data,

@@ -14,3 +14,9 @@ Meteor.publish('patient', function(){
 });
 
 
+Meteor.publish('measurements', function(patientId){
+	check(patientId, String);
+	return Measurements.find({patient: patientId});
+});
+
+
