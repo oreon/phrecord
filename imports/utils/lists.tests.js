@@ -17,15 +17,15 @@ if (Meteor.isServer) {
   // eslint-disable-next-line import/no-unresolved
   //import './server/publications.js';
 
-  describe('lists', function () {
-
-    describe('mutators', function () {
-      it('builds correctly from factory', function () {
-        const list = {}
-        assert.typeOf(list, 'object');
-        assert.match(list.name, /List /);
-      });
-    });
-    
-  });
+  //describe('lists', function () {
+  //
+  //  describe('mutators', function () {
+  //    it('builds correctly from factory', function () {
+  //      const list = {}
+  //      assert.typeOf(list, 'object');
+  //      assert.match(list.name, /List /);
+  //    });
+  //  });
+  //
+  //});
 }

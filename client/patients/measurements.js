@@ -42,12 +42,10 @@ Template.msmtTbl.events({
 
 		Meteor.call('admit', this,  function (error, response) {
 			if (error) {
-				//Bert.alert(error.reason, "danger");
-				//console.log(error)
+				Bert.alert(error.reason, "danger");
 			} else {
 				console.log(response)
 				Bert.alert('Successfully removed measurement ', 'success', 'growl-top-right');
-				//FlowRouter.go('/viewAdmission/' + response)
 			}
 		});
 

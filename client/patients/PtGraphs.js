@@ -1,13 +1,22 @@
 import Highcharts from 'Highcharts'
 import moment from 'moment'
 
+let limits  = {
+    'BP':[120,130],
+    'BGPP':[12,14],
+    'BGF':[3.9, 5.5]
+}
+
+let keys  = {
+    'BP':['SYS','DIAS'],
+    'BGF':['Blood Glucose Fasting'],
+    'BGPP':['Blood Glucose -Post Parandial']
+}
+
 export const applyChartData = (testsByType, msmts, template) => {
 
     //console.log(testsByType)
     //console.log(msmts)
-
-    _.forOwn()
-
     let msMap = msmtGraphs(msmts)
 
     for (var [key, value] of msMap) {
@@ -31,16 +40,23 @@ export const msmtGraphs = (msmts) => {
     let mapResults = new Map();
     _.forOwn(msmts, function (val, key) {
         let arr = [];
+        let secondArr = []
 
         _.forEach(val, function (elem) {
 
             if (elem.mainValue) {
                 arr.push([moment(elem.updatedAt).format("DD-MM-YY hh:mm"), elem.mainValue])
             }
+
+            if (elem.secondary) {
+                secondArr.push([moment(elem.updatedAt).format("DD-MM-YY hh:mm"), elem.secondary])
+            }
         })
 
         //console.log(arr)
         mapResults.set(key, arr);
+        mapResults.set(key+"-second", secondArr);
+
     });
     return mapResults;
 }
@@ -101,9 +117,7 @@ Template.PtGraphs.onCreated(function () {
 Template.PtGraphs.helpers({
 
     patient: ()=> {
-        pt =  Patients.findOne();
-        console.log(pt.msmts())
-        return pt;
+        return  Patients.findOne();
     },
 
     createChartData: function (adm) {
@@ -141,6 +155,7 @@ Template.PtGraphs.helpers({
         Meteor.defer(function () {
 
             data = mapResults.get(key)
+            dataSecond = mapResults.get(key+"-second")
             cats = []
 
             _.forEach(data, function (elem) {
@@ -180,25 +195,34 @@ Template.PtGraphs.helpers({
                 plotOptions: {
                     series: {
                         zones: [{
-                            value: 0,
+                            value: limits[key][0],
                             className: 'zone-1'
                         }, {
-                            value: 10,
+                            value: limits[key][1],
                             className: 'zone-2'
                         },
-                            {value: 15,
+                            {value: 150,
                             className: 'zone-0'
                         }
                         ],
-                        //threshold: 15
+                        //
+                        threshold: 0
                     }
                 },
 
                 series: [{
                     type: 'line',
                     data: data,
-                    name: key,
-                }]
+                    name: keys[key][0],
+                },
+
+                    {
+                        type: 'line',
+                        data: dataSecond,
+                        name: keys[key][1],
+                    }
+
+                ]
             });
             //}
         })

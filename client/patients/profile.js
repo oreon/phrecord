@@ -13,7 +13,7 @@ Template.profile.onCreated(function () {
 Template.profile.helpers({
 
     patient: ()=> {
-        //console.log(Patients.findOne()).firstName
+        console.log(Patients.findOne().appliedCharts)
         return Patients.findOne();
     },
 
