@@ -202,9 +202,9 @@ PatientSchema = new SimpleSchema([BaseSchema, {
 
 
 
-/*export const*/ Patients = new PatientsCollection('patients')
-/*export const*/  Measurements = new Mongo.Collection('measurements')
-/*export const*/ TestResults = new Mongo.Collection('testResults')
+export const Patients = new PatientsCollection('patients')
+export const  Measurements = new Mongo.Collection('measurements')
+export const TestResults = new Mongo.Collection('testResults')
 
 Patients.attachSchema(PatientSchema)
 TestResults.attachSchema(TestResultsSchema)

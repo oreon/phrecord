@@ -2,15 +2,20 @@ Template.measurements.onCreated(function(){
 	var self = this;
 	self.autorun(function (){
 		self.subscribe('patient');
+		pt = Patients.findOne();
+		if(pt)
+			self.subscribe('measurements', pt._id)
 	});
 });
 
 Template.measurements.helpers({
-	shoppingList: ()=> {
-		return Recipes.find({inMenu: true});
-	},
+
 	patient: ()=> {
 		return Patients.findOne();
+	},
+
+	measurements: function () {
+		return Measurements.find();
 	}
 
 });
@@ -19,12 +24,14 @@ Template.msmtTbl.helpers({
 
 	settings: function () {
 		return {
-			collection: Patients,
-			rowsPerPage: 10,
+			//collection: Measurements,
+			rowsPerPage: 4,
 			showFilter: true,
-			fields: ['firstName', 'lastName']
+
+			fields: ['measurement', 'mainValue', createdAt]
 		};
 	}
+
 })
 
 

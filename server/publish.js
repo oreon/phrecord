@@ -20,3 +20,9 @@ Meteor.publish('measurements', function(patientId){
 });
 
 
+// Publish only the current user's items
+ReactiveTable.publish("rt-measurements", Measurements, function () {
+	let user = Meteor.users.findOne(this.userId)
+	pt =  Patients.findOne({patientUniqueId: user.profile.patientId });
+	return {"patient": pt._id};
+});

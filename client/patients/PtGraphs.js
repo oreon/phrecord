@@ -137,6 +137,7 @@ Template.PtGraphs.helpers({
 
         let testResults = TestResults.find({ patient: patient._id }).fetch();
         let testsByType = _.groupBy(testResults, function (a) { return a.labTestName() })
+        console.log(patient.msmts())
         let msmts = _.groupBy(patient.msmts(), a => a.measurement )
 
         applyChartData( testsByType, msmts, Template.instance())
